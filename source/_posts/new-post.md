@@ -6,7 +6,7 @@ Hello your sister!
 {% endblockquote %}
 
 {% pullquote class %}
-content
+content more.
 {% endpullquote %}
 
 date: 2015-10-03 21:37:23
