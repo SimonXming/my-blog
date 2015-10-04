@@ -8,11 +8,6 @@ Hello your sister!
 {% pullquote class %}
 content
 {% endpullquote %}
-{% raw %}
-content
-{% endraw %}
-
-
 
 date: 2015-10-03 21:37:23
 tags:
