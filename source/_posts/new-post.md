@@ -9,6 +9,10 @@ Hello your sister!
 content more.
 {% endpullquote %}
 
+<pre><code>
+  [rectangle setX: 10 y: 10 width: 20 height: 20];
+</code>
+</pre>
 date: 2015-10-03 21:37:23
 tags:
 ---
