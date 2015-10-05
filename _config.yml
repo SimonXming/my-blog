@@ -68,4 +68,6 @@ theme: landscape
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html
 deploy:
-  type:
+  type: git
+  repository: git@github.com:SimonXming/SimonXming.github.io.git
+  branch: master
