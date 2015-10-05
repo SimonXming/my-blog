@@ -7,7 +7,7 @@ title: Hexo
 subtitle:
 description: This is Simon's writing area.Hope it will full of fun.
 author: John Doe
-language: zh
+language: zh-Hans
 timezone:
 
 # URL
@@ -63,7 +63,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: http://hexo.io/plugins/
 ## Themes: http://hexo.io/themes/
-theme: landscape
+theme: next
 
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html
