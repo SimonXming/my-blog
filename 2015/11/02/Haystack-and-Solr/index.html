@@ -1,0 +1,670 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+    
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.4"/>
+
+
+    <meta name="description" content="This is Simon's writing area.Hope it will full of fun." />
+
+
+
+  <meta name="keywords" content="schema,solr," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.4" />
+
+
+<meta name="description" content="schema.xml做什么？SOLR加载数据，创建索引和数据时，核心数据结构的配置文件是schema.xml，该配置文件主要用于配置数据源，字段类型定义，搜索类型定义等。schema.xml的配置直接影响搜索结果的准确性与效率。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Solr配置，schema.xml的配置，以及中文分词">
+<meta property="og:url" content="http://yoursite.com/2015/11/02/Haystack-and-Solr/index.html">
+<meta property="og:site_name" content="Record Time">
+<meta property="og:description" content="schema.xml做什么？SOLR加载数据，创建索引和数据时，核心数据结构的配置文件是schema.xml，该配置文件主要用于配置数据源，字段类型定义，搜索类型定义等。schema.xml的配置直接影响搜索结果的准确性与效率。">
+<meta property="og:updated_time" content="2015-11-02T14:24:52.336Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Solr配置，schema.xml的配置，以及中文分词">
+<meta name="twitter:description" content="schema.xml做什么？SOLR加载数据，创建索引和数据时，核心数据结构的配置文件是schema.xml，该配置文件主要用于配置数据源，字段类型定义，搜索类型定义等。schema.xml的配置直接影响搜索结果的准确性与效率。">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+    <title> Solr配置，schema.xml的配置，以及中文分词 // Record Time </title>
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+
+
+
+<div class="container one-column page-post-detail">
+    <div class="headband"></div>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">Record Time</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+        </div>
+    </header>
+
+    <main id="main" class="main">
+        <div class="main-inner">
+            <div id="content" class="content">
+                
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              Solr配置，schema.xml的配置，以及中文分词
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-11-02T21:31:53+08:00" content="2015-11-02">
+            2015-11-02
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h3 id="schema-xml做什么？">schema.xml做什么？</h3><p>SOLR加载数据，创建索引和数据时，核心数据结构的配置文件是schema.xml，该配置文件主要用于配置数据源，字段类型定义，搜索类型定义等。schema.xml的配置直接影响搜索结果的准确性与效率。<br><a id="more"></a></p>
+<h3 id="节点"><types></types>节点</h3><p>types节点主要用于搜索类型的定义，这里给出常用类型的定义。</p>
+<pre><code><span class="number">1</span> &lt;fieldType <span class="property">name</span>=<span class="string">"string"</span> <span class="type">class</span>=<span class="string">"solr.StrField"</span> sortMissingLast=<span class="string">"true"</span> /&gt;
+<span class="number">2</span> &lt;fieldType <span class="property">name</span>=<span class="string">"boolean"</span> <span class="type">class</span>=<span class="string">"solr.BoolField"</span> sortMissingLast=<span class="string">"true"</span>/&gt;
+<span class="number">3</span> &lt;fieldtype <span class="property">name</span>=<span class="string">"binary"</span> <span class="type">class</span>=<span class="string">"solr.BinaryField"</span>/&gt;
+<span class="number">4</span> &lt;fieldType <span class="property">name</span>=<span class="string">"int"</span> <span class="type">class</span>=<span class="string">"solr.TrieIntField"</span> precisionStep=<span class="string">"0"</span> positionIncrementGap=<span class="string">"0"</span>/&gt;
+<span class="number">5</span> &lt;fieldType <span class="property">name</span>=<span class="string">"float"</span> <span class="type">class</span>=<span class="string">"solr.TrieFloatField"</span> precisionStep=<span class="string">"0"</span> positionIncrementGap=<span class="string">"0"</span>/&gt;
+<span class="number">6</span> &lt;fieldType <span class="property">name</span>=<span class="string">"long"</span> <span class="type">class</span>=<span class="string">"solr.TrieLongField"</span> precisionStep=<span class="string">"0"</span> positionIncrementGap=<span class="string">"0"</span>/&gt;
+<span class="number">7</span> &lt;fieldType <span class="property">name</span>=<span class="string">"double"</span> <span class="type">class</span>=<span class="string">"solr.TrieDoubleField"</span> precisionStep=<span class="string">"0"</span> positionIncrementGap=<span class="string">"0"</span>/&gt;
+...
+</code></pre><p>这里给出的类型有，字符串，bool，int，date等等，基本java常用的都有。下面解释一下各个参数的意思。</p>
+<ul>
+<li><p>name：定义搜索字段名</p>
+</li>
+<li><p>class：这个搜索字段实际使用的类与方法。在org.appache.solr.analysis包下，包括了常用的类型。<br>其他可选的属性：</p>
+</li>
+<li><p>sortMissingLast，sortMissingFirst两个属性是用在可以内在使用String排序的类型上，默认false，适用于字段类型：string,boolean,sint,slong,sfloat,sdouble,pdate。</p>
+</li>
+<li><p>sortMissingLast=”true”，没有该field的数据排在有该field的数据之后，而不管请求时的排序规则，在Java中对应的意思就是，该字段为NULL，排在后面。</p>
+</li>
+<li><p>sortMissingFirst=”true”，排序规则与sortMissingLast相反。</p>
+</li>
+<li><p>positionIncrementGap：可选属性，定义在同一个文档中此类型数据的空白间隔，避免短语匹配错误。</p>
+</li>
+</ul>
+<p><u><strong>在配置中，string类型的class是solr.StrField，而这个字段是不会被分析存储的，也就是说不会被分词。</strong></u></p>
+<p>而对于文章或者长文本来说，我们必须对其进行分词才能保证搜索某些字段时能够给出正确的结果。这时我们就可以用到另外一个class，solr.TextField。它允许用户通过分析器来定制索引和查询，分析器包括一个分词器（tokenizer）和多个过滤器（filter） 。</p>
+<p>下面就来看一下中文分词吧，这里用的分词是IK Analyzer 2012。</p>
+<h3 id="中文分词">中文分词</h3><pre><code> 1 <span class="comment">&lt;!-- IKAnalyzer2012 --&gt;</span>
+ 2 <span class="tag">&lt;<span class="title">fieldType</span> <span class="attribute">name</span>=<span class="value">"text_ika"</span> <span class="attribute">class</span>=<span class="value">"solr.TextField"</span>&gt;</span>
+ 3     <span class="tag">&lt;<span class="title">analyzer</span> <span class="attribute">type</span>=<span class="value">"index"</span> <span class="attribute">positionIncrementGap</span>=<span class="value">"100"</span> <span class="attribute">autoGeneratePhraseQueries</span>=<span class="value">"true"</span>&gt;</span>
+ 4         <span class="tag">&lt;<span class="title">tokenizer</span> <span class="attribute">class</span>=<span class="value">"org.wltea.analyzer.solr.IKTokenizerFactory"</span> <span class="attribute">isMaxWordLength</span>=<span class="value">"false"</span>/&gt;</span>
+ 5         <span class="comment">&lt;!-- &lt;filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" /&gt; --&gt;</span>
+ 6         <span class="comment">&lt;!-- &lt;filter class="solr.LowerCaseFilterFactory"/&gt; --&gt;</span>
+ 7     <span class="tag">&lt;/<span class="title">analyzer</span>&gt;</span>
+ 8     <span class="tag">&lt;<span class="title">analyzer</span> <span class="attribute">type</span>=<span class="value">"query"</span>&gt;</span>
+ 9         <span class="tag">&lt;<span class="title">tokenizer</span> <span class="attribute">class</span>=<span class="value">"org.wltea.analyzer.solr.IKTokenizerFactory"</span> <span class="attribute">isMaxWordLength</span>=<span class="value">"true"</span> /&gt;</span>
+10         <span class="comment">&lt;!-- &lt;filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" /&gt; --&gt;</span>
+11         <span class="comment">&lt;!-- &lt;filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/&gt; --&gt;</span>
+12         <span class="comment">&lt;!-- &lt;filter class="solr.LowerCaseFilterFactory"/&gt; --&gt;</span>
+13     <span class="tag">&lt;/<span class="title">analyzer</span>&gt;</span>
+14 <span class="tag">&lt;/<span class="title">fieldType</span>&gt;</span>
+</code></pre><p>分词用的依旧是fieldType，为的是在下面的field中能够用到。</p>
+<p>有两个analyzer，一个是index，一个是query：</p>
+<ul>
+<li>index分析器用于建立索引的过程，</li>
+<li>query分析器用于通过关键词搜索的过程。</li>
+</ul>
+<p>query中的同义词Filter，solr.SynonymFilterFactory，注掉他是因为当前没有一个庞大的词库能够支撑中文如此复杂的同义词量。</p>
+<p>另外是忽略大小写的Filter，这个Filter可以根据自己的需要进行添加或删除，在我们的系统中，主要处理中文，这个用处也不大。</p>
+<p>还有一个Filter是停词Filter，这个用处挺大的。解释一下：停词组件在中文分词中很重要，IK也提供了相对应的配置方法，不仅仅可以处理停词，而且还可以自定义词库。所以，我建议将停词在IK中配置而不是在schema.xml中。</p>
+<p>两种方法都说一下：</p>
+<ul>
+<li><p>第一种：在schema.xml中配置，不要注释stopword组件，并将停词文件拷贝至solrHome/core/conf目录下（注意文件的编码方式，至少保证文本文件是UTF-8格式，更加严格的，保证文本文件是无BOM格式的UTF-8编码）。</p>
+</li>
+<li><p>第二种：在IK配置文件中配置，请下载一个IK分词组件，里面会有一个IKAnalyzer.cfg.xml的配置文件，拷贝到solr项目的源代码根目录下，并将stopword.dic也拷贝到根目录下</p>
+</li>
+</ul>
+<p>记得要导入IK的Jar包，这样，在你的文件中就可以使用IK提供的中文分词了。</p>
+<h3 id="节点-1"><fields></fields>节点</h3><p>filed字段用于定义数据源字段所使用的搜索类型与相关设置。</p>
+<pre><code>&lt;field name=<span class="string">"id"</span> <span class="class"><span class="keyword">type</span></span>=<span class="string">"long"</span> indexed=<span class="string">"true"</span> stored=<span class="string">"true"</span> multiValued=<span class="string">"false"</span> required=<span class="string">"true"</span> /&gt;
+&lt;field name=<span class="string">"name"</span> <span class="class"><span class="keyword">type</span></span>=<span class="string">"text_ika"</span> indexed=<span class="string">"true"</span> stored=<span class="string">"true"</span> multiValued=<span class="string">"false"</span> /&gt;
+&lt;field name=<span class="string">"address"</span> <span class="class"><span class="keyword">type</span></span>=<span class="string">"text_ika"</span> indexed=<span class="string">"true"</span> stored=<span class="string">"true"</span> multiValued=<span class="string">"false"</span> /&gt;
+&lt;field name=<span class="string">"description"</span> <span class="class"><span class="keyword">type</span></span>=<span class="string">"text_ika"</span> indexed=<span class="string">"true"</span> stored=<span class="string">"true"</span> multiValued=<span class="string">"false"</span> /&gt;
+
+...
+&lt;field name=<span class="string">"all"</span> <span class="class"><span class="keyword">type</span></span>=<span class="string">"text_ika"</span> indexed=<span class="string">"true"</span> stored=<span class="string">"false"</span> multiValued=<span class="string">"true"</span> /&gt;
+</code></pre><ul>
+<li><p>name：数据源字段名，搜索使用到。</p>
+</li>
+<li><p>type：搜索类型名例如中文ika搜索名text_ika，对应于fieldType中的name。不需要分词的字符串类型，string即可，如果需要分词，用上面配置好的分词type。</p>
+</li>
+<li><p>indexed：是否被索引，只有设置为true的字段才能进行搜索排序分片(earchable, sortable, facetable)。</p>
+</li>
+<li><p>stored：是否存储内容，如果不需要存储字段值，尽量设置为false以提高效率。</p>
+</li>
+<li><p>multiValued：是否为多值类型，SOLR允许配置多个数据源字段存储到一个搜索字段中。多个值必须为true，否则有可能抛出异常。</p>
+</li>
+</ul>
+<h3 id="!copyField节点">!copyField节点</h3><p>如果我们的搜索需要搜索多个字段该怎么办呢？这时候，我们就可以使用copyField。代码如下：</p>
+<pre><code>1 <span class="tag">&lt;<span class="title">copyField</span> <span class="attribute">source</span>=<span class="value">"name"</span> <span class="attribute">dest</span>=<span class="value">"all"</span> /&gt;</span>
+2 <span class="tag">&lt;<span class="title">copyField</span> <span class="attribute">source</span>=<span class="value">"address"</span> <span class="attribute">dest</span>=<span class="value">"all"</span> /&gt;</span>
+3 <span class="tag">&lt;<span class="title">copyField</span> <span class="attribute">source</span>=<span class="value">"description"</span> <span class="attribute">dest</span>=<span class="value">"all"</span> /&gt;</span>
+4 <span class="tag">&lt;<span class="title">copyField</span> <span class="attribute">source</span>=<span class="value">"city"</span> <span class="attribute">dest</span>=<span class="value">"all"</span> /&gt;</span>
+5 <span class="tag">&lt;<span class="title">copyField</span> <span class="attribute">source</span>=<span class="value">"district_name"</span> <span class="attribute">dest</span>=<span class="value">"all"</span> /&gt;</span>
+6 <span class="tag">&lt;<span class="title">copyField</span> <span class="attribute">source</span>=<span class="value">"merchantCategory_name"</span> <span class="attribute">dest</span>=<span class="value">"all"</span> /&gt;</span>
+7 <span class="tag">&lt;<span class="title">copyField</span> <span class="attribute">source</span>=<span class="value">"bank_name"</span> <span class="attribute">dest</span>=<span class="value">"all"</span> /&gt;</span>
+</code></pre><p>我们将所有的中文分词字段全部拷贝至all中，当我们进行全文检索是，只用搜索all字段就OK了。</p>
+<p>注意，这里的目标字段 <strong>必须</strong> 支持多值，最好不要存储，因为他只是做搜索。indexed为true，stored为false。</p>
+<p>copyField节点和field节点都在fields节点之内。</p>
+<p>问题又来了，如果需要根据不同的重要性进行区分，例如name的重要性比address大，该怎么办呢，后面再说这个问题。</p>
+<h3 id="uniqueKey节点">uniqueKey节点</h3><p>solr必须设置一个唯一字段，常设置为id，此唯一一段有uniqueKey节点指定。</p>
+<p>例如：</p>
+<pre><code>1 <span class="tag">&lt;<span class="title">uniqueKey</span>&gt;</span>id<span class="tag">&lt;/<span class="title">uniqueKey</span>&gt;</span>
+</code></pre><h3 id="defaultSearchField节点">defaultSearchField节点</h3><p>默认搜索的字段，我们已经将需要搜索的字段拷贝至all字段了，在这里设为all即可。</p>
+<pre><code><span class="number">1</span> <span class="variable">&lt;defaultSearchField&gt;</span><span class="literal">all</span><span class="variable">&lt;/defaultSearchField&gt;</span>
+</code></pre><h3 id="solrQueryParser节点">solrQueryParser节点</h3><p>默认搜索操作符参数，及搜索短语间的逻辑，用AND增加准确率，用OR增加覆盖面，建议用AND，也可在搜索语句中定义。例如搜索“河西 万达”，使用AND默认搜索为“河西AND万达“。</p>
+<pre><code>1 <span class="tag">&lt;<span class="title">solrQueryParser</span> <span class="attribute">defaultOperator</span>=<span class="value">"OR"</span>/&gt;</span>
+</code></pre></span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/schema/" rel="tag">#schema</a>
+          
+            <a href="/tags/solr/" rel="tag">#solr</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/11/02/Solr-Filter-Analyzer-Tokenizer/" rel="prev">Solr中的Filter, Analyzer, Tokenizer</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/10/16/What_is_shell/" rel="next">What is Shell?</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+            </div>
+
+            
+
+            
+              <div class="comments" id="comments">
+                
+              </div>
+            
+        </div>
+
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="simon" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">simon</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">This is Simon's writing area.Hope it will full of fun.</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#schema-xml做什么？"><span class="nav-number">1.</span> <span class="nav-text">schema.xml做什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#节点"><span class="nav-number">2.</span> <span class="nav-text">节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中文分词"><span class="nav-number">3.</span> <span class="nav-text">中文分词</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#节点-1"><span class="nav-number">4.</span> <span class="nav-text">节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#!copyField节点"><span class="nav-number">5.</span> <span class="nav-text">!copyField节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#uniqueKey节点"><span class="nav-number">6.</span> <span class="nav-text">uniqueKey节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#defaultSearchField节点"><span class="nav-number">7.</span> <span class="nav-text">defaultSearchField节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#solrQueryParser节点"><span class="nav-number">8.</span> <span class="nav-text">solrQueryParser节点</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">simon</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+        </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+</div>
+
+<script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.4"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.4"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.4" id="motion.global"></script>
+
+
+
+  <script type="text/javascript" src="/js/search-toggle.js"></script>
+
+
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.4" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (CONFIG.sidebar === 'always') {
+            displaySidebar();
+        }
+    });
+</script>
+
+
+
+
+
+
+
+
+<!-- lazyload -->
+<script type="text/javascript" src="/js/lazyload.js"></script>
+<script type="text/javascript">
+    jQuery(function () {
+        jQuery("#posts img").lazyload({
+            placeholder: "/images/loading.gif",
+            effect: "fadeIn"
+        });
+    });
+</script>
+</body>
+</html>

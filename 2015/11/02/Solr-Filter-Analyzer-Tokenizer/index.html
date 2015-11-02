@@ -28,7 +28,7 @@
 
 
 
-  <meta name="keywords" content="夜," />
+  <meta name="keywords" content="Solr," />
 
 
 
@@ -37,22 +37,28 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.4" />
 
 
-<meta name="description" content="今天和女朋友聊为什么我俩日常生活没什么有趣的事情说，但当其中一方生气了，接下来坚持沟通和聊天一般会有一个开心的结果。
-我想到了“目的导向”和“单线程”两个词。感觉有时可以是很准确的，我有过不少次神准直觉的经历，所以这次我还是选择相信感觉。
-先说”目的导向”，这是个中性词，意思是在做一件事情时总是想着目的地在哪。程度过一点的话，还可以用来形容做事情只问结果不问过程。哦不，只问结果不问过程是“结果导向">
+<meta name="description" content="PrefaceThe following sections describe how Solr breaks down and works with textual data. There are three main concepts to understand:
+
+Analyzers,
+Tokenizers,
+Filters.Field analyzers 的使用情景包括两个：建立索引时的截取">
 <meta property="og:type" content="article">
-<meta property="og:title" content="20151009夜">
-<meta property="og:url" content="http://yoursite.com/2015/10/09/20151009夜/index.html">
+<meta property="og:title" content="Solr中的Filter, Analyzer, Tokenizer">
+<meta property="og:url" content="http://yoursite.com/2015/11/02/Solr-Filter-Analyzer-Tokenizer/index.html">
 <meta property="og:site_name" content="Record Time">
-<meta property="og:description" content="今天和女朋友聊为什么我俩日常生活没什么有趣的事情说，但当其中一方生气了，接下来坚持沟通和聊天一般会有一个开心的结果。
-我想到了“目的导向”和“单线程”两个词。感觉有时可以是很准确的，我有过不少次神准直觉的经历，所以这次我还是选择相信感觉。
-先说”目的导向”，这是个中性词，意思是在做一件事情时总是想着目的地在哪。程度过一点的话，还可以用来形容做事情只问结果不问过程。哦不，只问结果不问过程是“结果导向">
-<meta property="og:updated_time" content="2015-10-09T16:12:17.707Z">
+<meta property="og:description" content="PrefaceThe following sections describe how Solr breaks down and works with textual data. There are three main concepts to understand:
+
+Analyzers,
+Tokenizers,
+Filters.Field analyzers 的使用情景包括两个：建立索引时的截取">
+<meta property="og:updated_time" content="2015-11-02T17:02:00.940Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="20151009夜">
-<meta name="twitter:description" content="今天和女朋友聊为什么我俩日常生活没什么有趣的事情说，但当其中一方生气了，接下来坚持沟通和聊天一般会有一个开心的结果。
-我想到了“目的导向”和“单线程”两个词。感觉有时可以是很准确的，我有过不少次神准直觉的经历，所以这次我还是选择相信感觉。
-先说”目的导向”，这是个中性词，意思是在做一件事情时总是想着目的地在哪。程度过一点的话，还可以用来形容做事情只问结果不问过程。哦不，只问结果不问过程是“结果导向">
+<meta name="twitter:title" content="Solr中的Filter, Analyzer, Tokenizer">
+<meta name="twitter:description" content="PrefaceThe following sections describe how Solr breaks down and works with textual data. There are three main concepts to understand:
+
+Analyzers,
+Tokenizers,
+Filters.Field analyzers 的使用情景包括两个：建立索引时的截取">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -62,7 +68,7 @@
   };
 </script>
 
-    <title> 20151009夜 // Record Time </title>
+    <title> Solr中的Filter, Analyzer, Tokenizer // Record Time </title>
 </head>
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 <!--[if lte IE 8]>
@@ -157,7 +163,7 @@
           
           
             
-              20151009夜
+              Solr中的Filter, Analyzer, Tokenizer
             
           
         </h1>
@@ -166,8 +172,8 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2015-10-09T00:06:38+08:00" content="2015-10-09">
-            2015-10-09
+          <time itemprop="dateCreated" datetime="2015-11-02T22:26:51+08:00" content="2015-11-02">
+            2015-11-02
           </time>
         </span>
 
@@ -185,15 +191,35 @@
       
 
       
-        <span itemprop="articleBody"><p>今天和女朋友聊为什么我俩日常生活没什么有趣的事情说，但当其中一方生气了，接下来坚持沟通和聊天一般会有一个开心的结果。</p>
-<p>我想到了“目的导向”和“单线程”两个词。<br>感觉有时可以是很准确的，我有过不少次神准直觉的经历，所以这次我还是选择相信感觉。</p>
-<p>先说”目的导向”，这是个中性词，意思是在做一件事情时总是想着目的地在哪。程度过一点的话，还可以用来形容做事情只问结果不问过程。<br>哦不，只问结果不问过程是“结果导向”。<br><a id="more"></a><br>如果有了矛盾（其中一方生气的情况），两个人聊天时的目的基本上可以认为是在寻求解决方案，聊得开心约等于找到了解决方案。<br>也就是说，两个人都觉得从“聊天”这件事得到了一些成果。当然，如果你是奔解决方案去的，这样聊得开心一点不奇怪。<br>但两人在一起又不是总要解决问题，需要跳出”解决问题有瘾“的怪圈，那么，不解决问题可以分享成长啊？<br>（问题一：两个人在一起聊天，又不是总要聊“有什么问题啊，我来帮你解决吧”之类的话。）</p>
-<p>懂了。”分享成长”四个字打出来就觉得不舒服。不舒服的点在哪里？</p>
-<p>是“分享”有问题还是”成长”太矫情？</p>
-<p>理智上我是推崇分享的，我也是一直受着开源社区的帮助。我也有过主动分享的尝试，今后应该还会继续坚持分享。因此“分享”应该是没什么问题的。</p>
-<p>那就是”成长“喽～<br>（”成长”这个词已经被滥用了，所以问题二：不愿意告诉对方自己的成长，不愿意说含义类似：”你看，我成长了“的话。主观上觉得矫情，客观上对方不感兴趣。）</p>
-<p>不解决问题，聊天的意义在哪里？——&gt;你是有多喜欢解决问题？——&gt;你是不是经常说或者想“这有什么意义”？<br>意义。<br>终于见真章了。<br>（问题三：聊天的意义。）<br>只说情侣间的。了解对方才能更好的关心对方，了解对方的心态。<br>意义中为什么不包含，”我就是喜欢和她聊天，和她聊天就是开心？“<br>因为很多时候，我们之间的聊天都是不开心的！！<br>原谅我加了两个感叹号，只是小小的发泄一下。<br>（问题四：其实很多时候聊得并不开心。）<br>真的真的真的很需要两个人都做同一件打心里觉得很有意思很在乎的事情。</p>
-<p>我认为可以培养的方向列表：dota2，编写好玩的程序，行书，木工，钢琴，涂鸦，养狗或猫(暂时不可行),锻炼成肌肉男，穿酷酷/帅帅/美美的衣服，精致烹调，打扫并装饰房间..<br>你的呢？&gt;3</p>
+        <span itemprop="articleBody"><h3 id="Preface">Preface</h3><p>The following sections describe how Solr breaks down and works with textual data. There are three main concepts to understand:</p>
+<ul>
+<li>Analyzers,</li>
+<li>Tokenizers,</li>
+<li>Filters.<br>Field analyzers 的使用情景包括两个：建立索引时的截取过程和检索（query）过程.<br>一个Analyzer检查一个Field中的文字，并且生成一组分割后的词组stream。Analyzers可能是一个单独的Class或者可以包括一系列的Tokenizer和Filter class。<br>Tokenizers负责把字段中的字符串分割成一个个有语义的集合，或者Token。<br>Filters 检查Tokenizer生成的Token流并且保存、转化、或者丢弃它们，或者创建一个新的Token（？）。Tokenizers和filters也许会合并成管道形式，或者合并成链（chains）形式，因此Tokenizer和Filter中某一个的输出可以作为下一个Tokenizer或Filter的输入。这样一个由tokenizer和filter组成的序列被称为一个analyzer。analyzer的输出结果通常被作为符合query条件的结果或者build indices（？）</li>
+</ul>
+<h3 id="Using_Analyzers,_Tokenizers,_and_Filters">Using Analyzers, Tokenizers, and Filters</h3><p>虽然上述分析过程在建立索引和检索过程均有使用，但是这两种操作使用的分析过程却并不是同一个。</p>
+<ul>
+<li>对于建立索引过程，一般需要简化或者一般化单词/词组。比如，所有字母小写，消除标点和音调，使单词回到基本状态（mapping words to their stems）。这样做可以增加搜索引擎的‘回忆’（recall），比如 “ram”, “Ram” and “RAM” 都会检索到 “ram”.为了增加检索过程的精准程度，一个filter可以通过忽视all-cap acronyms（缩写）来实现缩小匹配范围的功能， if you’re interested in male sheep, but not Random Access Memory.</li>
+</ul>
+<p>通过分析过程生成的Token定义了某个field的值，或者terms（术语），当增加一个文档时，该field不是用于建立那些terms的索引，就是去识别新增文档的哪部门包含你正在检索的terms。</p>
+<p>For More Information</p>
+<p>These sections will show you how to configure field analyzers and also serves as a reference for the details of configuring each of the available tokenizer and filter classes. It also serves as a guide so that you can configure your own analysis classes if you have special needs that cannot be met with the included filters or tokenizers.</p>
+<h3 id="For_Analyzers,_see:">For Analyzers, see:</h3><ul>
+<li>Analyzers: Detailed conceptual information about Solr analyzers.</li>
+<li>Running Your Analyzer: Detailed information about testing and running your Solr analyzer.</li>
+</ul>
+<h3 id="For_Tokenizers,_see:">For Tokenizers, see:</h3><ul>
+<li>About Tokenizers: Detailed conceptual information about Solr tokenizers.</li>
+<li>Tokenizers: Information about configuring tokenizers, and about the tokenizer factory classes included in this distribution of Solr.</li>
+</ul>
+<h3 id="For_Filters,_see:">For Filters, see:</h3><ul>
+<li>About Filters: Detailed conceptual information about Solr filters.</li>
+<li>Filter Descriptions: Information about configuring filters, and about the filter factory classes included in this distribution of Solr.</li>
+<li>CharFilterFactories: Information about filters for pre-processing input characters.</li>
+</ul>
+<h3 id="To_find_out_how_to_use_Tokenizers_and_Filters_with_various_languages,_see:">To find out how to use Tokenizers and Filters with various languages, see:</h3><ul>
+<li>Language Analysis: Information about tokenizers and filters for character set conversion or for use with specific languages.</li>
+</ul>
 </span>
       
     </div>
@@ -202,7 +228,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/夜/" rel="tag">#夜</a>
+            <a href="/tags/Solr/" rel="tag">#Solr</a>
           
         </div>
       
@@ -211,13 +237,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/10/10/Markdown/" rel="prev">Markdown!</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/10/08/hello-world/" rel="next">Hello World</a>
+              <a href="/2015/11/02/Haystack-and-Solr/" rel="next">Solr配置，schema.xml的配置，以及中文分词</a>
             
           </div>
         </div>
@@ -322,7 +346,7 @@
           <div class="post-toc">
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Preface"><span class="nav-number">1.</span> <span class="nav-text">Preface</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Using_Analyzers,_Tokenizers,_and_Filters"><span class="nav-number">2.</span> <span class="nav-text">Using Analyzers, Tokenizers, and Filters</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#For_Analyzers,_see:"><span class="nav-number">3.</span> <span class="nav-text">For Analyzers, see:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#For_Tokenizers,_see:"><span class="nav-number">4.</span> <span class="nav-text">For Tokenizers, see:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#For_Filters,_see:"><span class="nav-number">5.</span> <span class="nav-text">For Filters, see:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#To_find_out_how_to_use_Tokenizers_and_Filters_with_various_languages,_see:"><span class="nav-number">6.</span> <span class="nav-text">To find out how to use Tokenizers and Filters with various languages, see:</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
