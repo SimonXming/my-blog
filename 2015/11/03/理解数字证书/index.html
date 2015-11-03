@@ -37,19 +37,16 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.4" />
 
 
-<meta name="description" content="简介那麼我們來瞭解一下 Linux 使用的是哪一個 shell 呢？難道說 shell 不就是『一個 shell 嗎？』
-由於早年的 Unix 年代，發展者眾，所以由於 shell 依據發展者的不同就有許多的版本.例如常聽到的 Bourne SHell (sh) 、在 Sun 裡頭預設的 C SHell、 商業上常用的 K SHell、, 還有 TCSH 等等，每一種 Shell 都各有其特點。至">
+<meta name="description" content="This is Simon&apos;s writing area.Hope it will full of fun.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="What is Shell?">
-<meta property="og:url" content="http://yoursite.com/2015/10/16/What_is_shell/index.html">
+<meta property="og:title" content="理解数字证书">
+<meta property="og:url" content="http://yoursite.com/2015/11/03/理解数字证书/index.html">
 <meta property="og:site_name" content="Record Time">
-<meta property="og:description" content="简介那麼我們來瞭解一下 Linux 使用的是哪一個 shell 呢？難道說 shell 不就是『一個 shell 嗎？』
-由於早年的 Unix 年代，發展者眾，所以由於 shell 依據發展者的不同就有許多的版本.例如常聽到的 Bourne SHell (sh) 、在 Sun 裡頭預設的 C SHell、 商業上常用的 K SHell、, 還有 TCSH 等等，每一種 Shell 都各有其特點。至">
-<meta property="og:updated_time" content="2015-11-02T13:30:03.283Z">
+<meta property="og:description" content="This is Simon&apos;s writing area.Hope it will full of fun.">
+<meta property="og:updated_time" content="2015-11-03T15:55:38.311Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="What is Shell?">
-<meta name="twitter:description" content="简介那麼我們來瞭解一下 Linux 使用的是哪一個 shell 呢？難道說 shell 不就是『一個 shell 嗎？』
-由於早年的 Unix 年代，發展者眾，所以由於 shell 依據發展者的不同就有許多的版本.例如常聽到的 Bourne SHell (sh) 、在 Sun 裡頭預設的 C SHell、 商業上常用的 K SHell、, 還有 TCSH 等等，每一種 Shell 都各有其特點。至">
+<meta name="twitter:title" content="理解数字证书">
+<meta name="twitter:description" content="This is Simon&apos;s writing area.Hope it will full of fun.">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -59,7 +56,7 @@
   };
 </script>
 
-    <title> What is Shell? // Record Time </title>
+    <title> 理解数字证书 // Record Time </title>
 </head>
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 <!--[if lte IE 8]>
@@ -154,7 +151,7 @@
           
           
             
-              What is Shell?
+              理解数字证书
             
           
         </h1>
@@ -163,8 +160,8 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2015-10-16T23:21:40+08:00" content="2015-10-16">
-            2015-10-16
+          <time itemprop="dateCreated" datetime="2015-11-03T23:55:38+08:00" content="2015-11-03">
+            2015-11-03
           </time>
         </span>
 
@@ -182,28 +179,7 @@
       
 
       
-        <span itemprop="articleBody"><h3 id="简介">简介</h3><p>那麼我們來瞭解一下 Linux 使用的是哪一個 shell 呢？難道說 shell 不就是『一個 shell 嗎？』</p>
-<p>由於早年的 Unix 年代，發展者眾，所以由於 shell 依據發展者的不同就有許多的版本.<br>例如常聽到的 Bourne SHell (sh) 、在 Sun 裡頭預設的 C SHell、 商業上常用的 K SHell、, 還有 TCSH 等等，每一種 Shell 都各有其特點。至於 Linux 使用的這一種版本就稱為 <strong>『 Bourne Again SHell (簡稱 bash) 』</strong>， 這個 Shell 是 Bourne Shell 的增強版本，也是基準於 GNU 的架構下發展出來的呦！</p>
-<a id="more"></a>
-<p>那麼目前我們的 Linux (以 Ubuntu 15.04 為例) 有多少我們可以使用的 shells 呢？ 你可以檢查一下 /etc/shells 這個檔案，至少就有底下這幾個可以用的 shells ：</p>
-<pre><code>/<span class="keyword">bin/sh </span>(已經被 /<span class="keyword">bin/bash </span>所取代)
-/<span class="keyword">bin/bash </span>(就是 Linux 預設的 shell)
-/<span class="keyword">bin/dash </span>  ?
-/<span class="keyword">bin/rbash </span> ?
-</code></pre><p>那麼，再想一想，我這個使用者什麼時候可以取得 shell 來工作呢？ 當我登入的時候，系統就會給我一個 shell 讓我來工作了。 而這個登入取得的 shell 就記錄在 /etc/passwd 這個檔案內,内容如下：</p>
-<pre><code><span class="symbol">root:</span><span class="symbol">x:</span><span class="number">0</span><span class="symbol">:</span><span class="number">0</span><span class="symbol">:root</span><span class="symbol">:/root</span><span class="symbol">:/bin/bash</span>
-<span class="symbol">daemon:</span><span class="symbol">x:</span><span class="number">1</span><span class="symbol">:</span><span class="number">1</span><span class="symbol">:daemon</span><span class="symbol">:/usr/sbin</span><span class="symbol">:/usr/sbin/nologin</span>
-<span class="symbol">bin:</span><span class="symbol">x:</span><span class="number">2</span><span class="symbol">:</span><span class="number">2</span><span class="symbol">:bin</span><span class="symbol">:/bin</span><span class="symbol">:/usr/sbin/nologin</span>
-<span class="symbol">sys:</span><span class="symbol">x:</span><span class="number">3</span><span class="symbol">:</span><span class="number">3</span><span class="symbol">:sys</span><span class="symbol">:/dev</span><span class="symbol">:/usr/sbin/nologin</span>
-</code></pre><p>如上所示，在每一行的最後一個資料，就是你登入後可以取得的預設的 shell 啦！那你也會看到， root 是 /bin/bash ，不過，系統帳號 bin 與 daemon 等等，就使用那個怪怪的 /sbin/nologin。</p>
-<h3 id="命令、文件">命令、文件</h3><ul>
-<li><p>~/.bash_history 記錄的是前一次登入以前所執行過的指令， 而至於這一次登入所執行的指令都被暫存在記憶體中，當你成功的登出系統後，該指令記憶才會記錄到 .bash_history 當中！</p>
-</li>
-<li><p>命令別名設定功能： (alias)<br>假如我需要知道這個目錄底下的所有檔案 (包含隱藏檔) 及所有的檔案屬性，那麼我就必須要下達『 ls -al 』這樣的指令串，唉！真麻煩，有沒有更快的取代方式？呵呵！就使用命令別名呀！例如鳥哥最喜歡直接以 lm 這個自訂的命令來取代上面的命令，也就是說， lm 會等於 ls -al 這樣的一個功能，嘿！那麼要如何作呢？就使用 alias 即可！你可以在指令列輸入 alias 就可以知道目前的命令別名有哪些了！也可以直接下達命令來設定別名呦：</p>
-<p>  alias lm=’ls -al’</p>
-</li>
-</ul>
-</span>
+        <span itemprop="articleBody"></span>
       
     </div>
 
@@ -214,13 +190,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/11/02/Haystack-and-Solr/" rel="prev">Solr配置，schema.xml的配置，以及中文分词</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/10/16/在Ubuntu系统中怎样安装和配置PostgreSQL服务器/" rel="next">在Ubuntu系统中怎样安装和配置PostgreSQL服务器</a>
+              <a href="/2015/11/03/理解SSL和TLS/" rel="next">理解SSL和TLS</a>
             
           </div>
         </div>
@@ -325,7 +299,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命令、文件"><span class="nav-number">2.</span> <span class="nav-text">命令、文件</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
