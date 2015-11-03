@@ -51,7 +51,7 @@ Filters.Field analyzers 的使用情景包括两个：建立索引时的截取">
 Analyzers,
 Tokenizers,
 Filters.Field analyzers 的使用情景包括两个：建立索引时的截取">
-<meta property="og:updated_time" content="2015-11-02T17:02:00.940Z">
+<meta property="og:updated_time" content="2015-11-03T14:46:17.826Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Solr中的Filter, Analyzer, Tokenizer">
 <meta name="twitter:description" content="PrefaceThe following sections describe how Solr breaks down and works with textual data. There are three main concepts to understand:
@@ -195,7 +195,8 @@ Filters.Field analyzers 的使用情景包括两个：建立索引时的截取">
 <ul>
 <li>Analyzers,</li>
 <li>Tokenizers,</li>
-<li>Filters.<br>Field analyzers 的使用情景包括两个：建立索引时的截取过程和检索（query）过程.<br>一个Analyzer检查一个Field中的文字，并且生成一组分割后的词组stream。Analyzers可能是一个单独的Class或者可以包括一系列的Tokenizer和Filter class。<br>Tokenizers负责把字段中的字符串分割成一个个有语义的集合，或者Token。<br>Filters 检查Tokenizer生成的Token流并且保存、转化、或者丢弃它们，或者创建一个新的Token（？）。Tokenizers和filters也许会合并成管道形式，或者合并成链（chains）形式，因此Tokenizer和Filter中某一个的输出可以作为下一个Tokenizer或Filter的输入。这样一个由tokenizer和filter组成的序列被称为一个analyzer。analyzer的输出结果通常被作为符合query条件的结果或者build indices（？）</li>
+<li>Filters.<br>Field analyzers 的使用情景包括两个：建立索引时的截取过程和检索（query）过程.<br>一个Analyzer检查一个Field中的文字，并且生成一组分割后的词组stream。Analyzers可能是一个单独的Class或者可以包括一系列的Tokenizer和Filter class。<a id="more"></a>
+Tokenizers负责把字段中的字符串分割成一个个有语义的集合，或者Token。<br>Filters 检查Tokenizer生成的Token流并且保存、转化、或者丢弃它们，或者创建一个新的Token（？）。Tokenizers和filters也许会合并成管道形式，或者合并成链（chains）形式，因此Tokenizer和Filter中某一个的输出可以作为下一个Tokenizer或Filter的输入。这样一个由tokenizer和filter组成的序列被称为一个analyzer。analyzer的输出结果通常被作为符合query条件的结果或者build indices（？）</li>
 </ul>
 <h3 id="Using_Analyzers,_Tokenizers,_and_Filters">Using Analyzers, Tokenizers, and Filters</h3><p>虽然上述分析过程在建立索引和检索过程均有使用，但是这两种操作使用的分析过程却并不是同一个。</p>
 <ul>
@@ -236,6 +237,8 @@ Filters.Field analyzers 的使用情景包括两个：建立索引时的截取">
       
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/11/03/理解SSL和TLS/" rel="prev">理解SSL和TLS</a>
             
           </div>
 
@@ -304,7 +307,7 @@ Filters.Field analyzers 的使用情景包括两个：建立索引时的截取">
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-count">8</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

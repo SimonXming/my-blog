@@ -37,15 +37,29 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.4" />
 
 
-<meta name="description" content="This is Simon&apos;s writing area.Hope it will full of fun.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Record Time">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="互联网的通信安全，建立在SSL/TLS协议之上。
+本文简要介绍SSL/TLS协议的运行机制。文章的重点是设计思想和运行过程，不涉及具体的实现细节。(参阅RFC文档)
+一、作用不使用SSL/TLS的HTTP通信，就是不加密的通信。所有信息明文传播，带来了三大风险。
+（1） 窃听风险（eavesdropping）。（2） 篡改风险（tampering）。（3） 冒充风险（pretending）。
+SS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="理解SSL和TLS">
+<meta property="og:url" content="http://yoursite.com/2015/11/03/理解SSL和TLS/index.html">
 <meta property="og:site_name" content="Record Time">
-<meta property="og:description" content="This is Simon&apos;s writing area.Hope it will full of fun.">
+<meta property="og:description" content="互联网的通信安全，建立在SSL/TLS协议之上。
+本文简要介绍SSL/TLS协议的运行机制。文章的重点是设计思想和运行过程，不涉及具体的实现细节。(参阅RFC文档)
+一、作用不使用SSL/TLS的HTTP通信，就是不加密的通信。所有信息明文传播，带来了三大风险。
+（1） 窃听风险（eavesdropping）。（2） 篡改风险（tampering）。（3） 冒充风险（pretending）。
+SS">
+<meta property="og:image" content="http://image.beekka.com/blog/201402/bg2014020502.png">
+<meta property="og:updated_time" content="2015-11-03T15:54:59.749Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Record Time">
-<meta name="twitter:description" content="This is Simon&apos;s writing area.Hope it will full of fun.">
+<meta name="twitter:title" content="理解SSL和TLS">
+<meta name="twitter:description" content="互联网的通信安全，建立在SSL/TLS协议之上。
+本文简要介绍SSL/TLS协议的运行机制。文章的重点是设计思想和运行过程，不涉及具体的实现细节。(参阅RFC文档)
+一、作用不使用SSL/TLS的HTTP通信，就是不加密的通信。所有信息明文传播，带来了三大风险。
+（1） 窃听风险（eavesdropping）。（2） 篡改风险（tampering）。（3） 冒充风险（pretending）。
+SS">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -55,7 +69,7 @@
   };
 </script>
 
-    <title> Record Time </title>
+    <title> 理解SSL和TLS // Record Time </title>
 </head>
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 <!--[if lte IE 8]>
@@ -71,9 +85,7 @@
 
 
 
-<div class="container one-column 
-   page-home 
-">
+<div class="container one-column page-post-detail">
     <div class="headband"></div>
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
         <div class="header-inner"><h1 class="site-meta">
@@ -139,9 +151,9 @@
         <div class="main-inner">
             <div id="content" class="content">
                 
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <header class="post-header">
@@ -152,9 +164,7 @@
           
           
             
-              <a class="post-title-link" href="/2015/11/03/理解SSL和TLS/" itemprop="url">
-                理解SSL和TLS
-              </a>
+              理解SSL和TLS
             
           
         </h1>
@@ -182,8 +192,7 @@
       
 
       
-        
-          <span itemprop="articleBody"><p>互联网的通信安全，建立在SSL/TLS协议之上。</p>
+        <span itemprop="articleBody"><p>互联网的通信安全，建立在SSL/TLS协议之上。</p>
 <p>本文简要介绍SSL/TLS协议的运行机制。文章的重点是设计思想和运行过程，不涉及具体的实现细节。(参阅<a href="http://tools.ietf.org/html/rfc5246" target="_blank" rel="external">RFC</a>文档)</p>
 <h3 id="一、作用">一、作用</h3><p>不使用SSL/TLS的HTTP通信，就是不加密的通信。所有信息明文传播，带来了三大风险。</p>
 <pre><code>（<span class="number">1</span>） 窃听风险（eavesdropping）。（<span class="number">2</span>） 篡改风险（tampering）。（<span class="number">3</span>） 冒充风险（pretending）。
@@ -259,7 +268,6 @@
 （<span class="number">2</span>）服务器握手结束通知，表示服务器的握手阶段已经结束。这一项同时也是前面发送的所有内容的hash值，用来供客户端校验。
 </code></pre><p>至此，整个握手阶段全部结束。接下来，客户端与服务器进入加密通信，就完全是使用普通的HTTP协议，只不过用”会话密钥”加密内容。</p>
 </span>
-        
       
     </div>
 
@@ -267,506 +275,40 @@
       
 
       
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
             
-              <a class="post-title-link" href="/2015/11/02/Solr-Filter-Analyzer-Tokenizer/" itemprop="url">
-                Solr中的Filter, Analyzer, Tokenizer
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2015-11-02T22:26:51+08:00" content="2015-11-02">
-            2015-11-02
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="Preface">Preface</h3><p>The following sections describe how Solr breaks down and works with textual data. There are three main concepts to understand:</p>
-<ul>
-<li>Analyzers,</li>
-<li>Tokenizers,</li>
-<li>Filters.<br>Field analyzers 的使用情景包括两个：建立索引时的截取过程和检索（query）过程.<br>一个Analyzer检查一个Field中的文字，并且生成一组分割后的词组stream。Analyzers可能是一个单独的Class或者可以包括一系列的Tokenizer和Filter class。
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/11/02/Solr-Filter-Analyzer-Tokenizer/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
           </div>
-        
-      
-    </div>
 
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
+          <div class="post-nav-next post-nav-item">
             
-              <a class="post-title-link" href="/2015/11/02/Haystack-and-Solr/" itemprop="url">
-                Solr配置，schema.xml的配置，以及中文分词
-              </a>
+              <a href="/2015/11/02/Solr-Filter-Analyzer-Tokenizer/" rel="next">Solr中的Filter, Analyzer, Tokenizer</a>
             
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2015-11-02T21:31:53+08:00" content="2015-11-02">
-            2015-11-02
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="schema-xml做什么？">schema.xml做什么？</h3><p>SOLR加载数据，创建索引和数据时，核心数据结构的配置文件是schema.xml，该配置文件主要用于配置数据源，字段类型定义，搜索类型定义等。schema.xml的配置直接影响搜索结果的准确性与效率。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/11/02/Haystack-and-Solr/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
           </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
+        </div>
       
 
       
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-      
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2015/10/16/What_is_shell/" itemprop="url">
-                What is Shell?
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2015-10-16T23:21:40+08:00" content="2015-10-16">
-            2015-10-16
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="简介">简介</h3><p>那麼我們來瞭解一下 Linux 使用的是哪一個 shell 呢？難道說 shell 不就是『一個 shell 嗎？』</p>
-<p>由於早年的 Unix 年代，發展者眾，所以由於 shell 依據發展者的不同就有許多的版本.<br>例如常聽到的 Bourne SHell (sh) 、在 Sun 裡頭預設的 C SHell、 商業上常用的 K SHell、, 還有 TCSH 等等，每一種 Shell 都各有其特點。至於 Linux 使用的這一種版本就稱為 <strong>『 Bourne Again SHell (簡稱 bash) 』</strong>， 這個 Shell 是 Bourne Shell 的增強版本，也是基準於 GNU 的架構下發展出來的呦！</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/10/16/What_is_shell/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
+    <div class="post-spread">
       
     </div>
+  </div>
 
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2015/10/16/在Ubuntu系统中怎样安装和配置PostgreSQL服务器/" itemprop="url">
-                在Ubuntu系统中怎样安装和配置PostgreSQL服务器
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2015-10-16T22:31:20+08:00" content="2015-10-16">
-            2015-10-16
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="介绍">介绍</h3><p>PostgreSQL是一个强大的关系型数据库管理系统，它按照BSD许可发行。PostgreSQL包含很多高级的特性，拥有良好的性能和很好的适用性。</p>
-<p>PostgreSQL绑定了很多种编程语言，例如 C, C++, Python, Java, PHP, Ruby等，它可以操作很多东西，从简单的Web应用程序到拥有数百万条记录的庞大数据库。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/10/16/在Ubuntu系统中怎样安装和配置PostgreSQL服务器/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2015/10/10/Markdown/" itemprop="url">
-                Markdown!
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2015-10-10T00:30:00+08:00" content="2015-10-10">
-            2015-10-10
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>&lt;注：本文全文使用Markdown语法&gt;</p>
-<h3 id="概述">概述</h3><h4 id="宗旨">宗旨</h4><p>Markdown 的目标是实现「易读易写」。</p>
-<p>可读性，无论如何，都是最重要的。一份使用 Markdown 格式撰写的文件应该可以直接以纯文本发布，并且看起来不会像是由许多标签或是格式指令所构成。Markdown 语法受到一些既有 text-to-HTML 格式的影响，包括 Setext、atx、Textile、reStructuredText、Grutatext 和 EtText，而最大灵感来源其实是纯文本电子邮件的格式。</p>
-<p>总之， Markdown 的语法全由一些符号所组成，这些符号经过精挑细选，其作用一目了然。</p>
-<h4 id="兼容_HTML">兼容 HTML</h4><p>Markdown 语法的目标是：成为一种适用于网络的书写语言。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/10/10/Markdown/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2015/10/09/20151009夜/" itemprop="url">
-                20151009夜
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2015-10-09T00:06:38+08:00" content="2015-10-09">
-            2015-10-09
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>今天和女朋友聊为什么我俩日常生活没什么有趣的事情说，但当其中一方生气了，接下来坚持沟通和聊天一般会有一个开心的结果。</p>
-<p>我想到了“目的导向”和“单线程”两个词。<br>感觉有时可以是很准确的，我有过不少次神准直觉的经历，所以这次我还是选择相信感觉。</p>
-<p>先说”目的导向”，这是个中性词，意思是在做一件事情时总是想着目的地在哪。程度过一点的话，还可以用来形容做事情只问结果不问过程。<br>哦不，只问结果不问过程是“结果导向”。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/10/09/20151009夜/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2015/10/08/hello-world/" itemprop="url">
-                Hello World
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2015-10-08T00:30:00+08:00" content="2015-10-08">
-            2015-10-08
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>Welcome to <a href="http://hexo.io/">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><pre>
-$ hexo new "My New Post"
-</pre>
-
-<p>More info: <a href="http://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run_server">Run server</h3><pre>
-$ hexo server
-</pre>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/10/08/hello-world/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-  </section>
-
-  
 
             </div>
 
             
 
+            
+              <div class="comments" id="comments">
+                
+              </div>
             
         </div>
 
@@ -783,6 +325,15 @@ $ hexo server
   <aside id="sidebar" class="sidebar">
     <div class="sidebar-inner">
 
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
       
 
       <section class="site-overview">
@@ -831,6 +382,17 @@ $ hexo server
       </section>
 
       
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、作用"><span class="nav-number">1.</span> <span class="nav-text">一、作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、历史"><span class="nav-number">2.</span> <span class="nav-text">二、历史</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、基本的运行过程"><span class="nav-number">3.</span> <span class="nav-text">三、基本的运行过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#（1）如何保证公钥不被篡改？"><span class="nav-number">3.1.</span> <span class="nav-text">（1）如何保证公钥不被篡改？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#（2）公钥加密计算量太大，如何减少耗用的时间？"><span class="nav-number">3.2.</span> <span class="nav-text">（2）公钥加密计算量太大，如何减少耗用的时间？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、握手阶段的详细过程"><span class="nav-number">4.</span> <span class="nav-text">四、握手阶段的详细过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1_客户端发出请求（ClientHello）"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 客户端发出请求（ClientHello）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2_服务器回应（SeverHello）"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 服务器回应（SeverHello）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3_客户端回应"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 客户端回应</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
 
     </div>
   </aside>
@@ -874,13 +436,13 @@ $ hexo server
   
   
   
-  
-  
+    
+    
 
   
 
 
-
+  
   
   <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
   <script type="text/javascript" src="/js/fancy-box.js?v=0.4.4"></script>
@@ -899,6 +461,165 @@ $ hexo server
   <script type="text/javascript" src="/js/search-toggle.js"></script>
 
 
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.4" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -908,13 +629,6 @@ $ hexo server
     });
 </script>
 
-
-
-
-  
-  
-
-  
 
 
 
