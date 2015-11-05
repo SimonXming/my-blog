@@ -28,7 +28,7 @@
 
 
 
-  <meta name="keywords" content="Hexo,next" />
+  <meta name="keywords" content="WSGI," />
 
 
 
@@ -37,16 +37,19 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.4" />
 
 
-<meta name="description" content="This is Simon&apos;s writing area.Hope it will full of fun.">
+<meta name="description" content="WSGIWeb服务器网关接口（Python Web Server Gateway Interface，缩写为WSGI）是为Python语言定义的Web服务器和Web应用程序或框架之间的一种简单而通用的接口。自从WSGI被开发出来以后，许多其它语言中也出现了类似接口。（来源：维基）
+WSGI存在目的在WSGI出现之前，对于Python一般而言，Web应用框架的选择将限制可用的Web服务器的选择，反之">
 <meta property="og:type" content="article">
-<meta property="og:title" content="理解数字证书">
+<meta property="og:title" content="mod_wsgi, WSGI和uWSGI">
 <meta property="og:url" content="http://yoursite.com/2015/11/03/理解数字证书/index.html">
 <meta property="og:site_name" content="Record Time">
-<meta property="og:description" content="This is Simon&apos;s writing area.Hope it will full of fun.">
-<meta property="og:updated_time" content="2015-11-03T15:55:38.311Z">
+<meta property="og:description" content="WSGIWeb服务器网关接口（Python Web Server Gateway Interface，缩写为WSGI）是为Python语言定义的Web服务器和Web应用程序或框架之间的一种简单而通用的接口。自从WSGI被开发出来以后，许多其它语言中也出现了类似接口。（来源：维基）
+WSGI存在目的在WSGI出现之前，对于Python一般而言，Web应用框架的选择将限制可用的Web服务器的选择，反之">
+<meta property="og:updated_time" content="2015-11-05T15:43:50.386Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="理解数字证书">
-<meta name="twitter:description" content="This is Simon&apos;s writing area.Hope it will full of fun.">
+<meta name="twitter:title" content="mod_wsgi, WSGI和uWSGI">
+<meta name="twitter:description" content="WSGIWeb服务器网关接口（Python Web Server Gateway Interface，缩写为WSGI）是为Python语言定义的Web服务器和Web应用程序或框架之间的一种简单而通用的接口。自从WSGI被开发出来以后，许多其它语言中也出现了类似接口。（来源：维基）
+WSGI存在目的在WSGI出现之前，对于Python一般而言，Web应用框架的选择将限制可用的Web服务器的选择，反之">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -56,7 +59,7 @@
   };
 </script>
 
-    <title> 理解数字证书 // Record Time </title>
+    <title> mod_wsgi, WSGI和uWSGI // Record Time </title>
 </head>
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 <!--[if lte IE 8]>
@@ -151,7 +154,7 @@
           
           
             
-              理解数字证书
+              mod_wsgi, WSGI和uWSGI
             
           
         </h1>
@@ -179,11 +182,40 @@
       
 
       
-        <span itemprop="articleBody"></span>
+        <span itemprop="articleBody"><h3 id="WSGI">WSGI</h3><p>Web服务器网关接口（Python Web Server Gateway Interface，缩写为WSGI）是为Python语言定义的Web服务器和Web应用程序或框架之间的一种简单而通用的接口。自从WSGI被开发出来以后，许多其它语言中也出现了类似接口。（来源：维基）</p>
+<h4 id="WSGI存在目的">WSGI存在目的</h4><p>在WSGI出现之前，对于Python一般而言，Web应用框架的选择将限制可用的Web服务器的选择，反之亦然。那时的Python应用程序（框架）通常是为CGI，FastCGI，mod_python中的一个而设计，甚至是为特定Web服务器的自定义的API接口而设计的。</p>
+<a id="more"></a>
+<p>WSGI （有时发音作’wiz-gee’）是作为Web服务器与Web应用程序（应用框架）之间的一种低级别的接口，以提升可移植Web应用开发的共同点。WSGI是基于现存的CGI标准而设计的。<br>所以，直接原因是为了移植性。</p>
+<h4 id="WSGI的特征">WSGI的特征</h4><ul>
+<li>WSGI不是服务器，不是python模块，不是框架，不是API或是任何一种software. 它只是为了服务器和客户端交流，而设计一组接口规范。</li>
+<li>既然是规范，就要服务器和应用程序（框架）就都需要实现这个规范（规范细节详见<a href="https://www.python.org/dev/peps/pep-3333" target="_blank" rel="external">PEP333</a>）。</li>
+<li>WSGI为了抹平应用程序（框架）和Web服务器之间的适用性差异，所以是位于服务器客户端的中间（中间件）</li>
+<li>对于客户端，WSGI中间件看上去是服务器;对于服务器，WSGI中间件看上去是客户端;</li>
+</ul>
+<h4 id="WSGI的实现">WSGI的实现</h4><h5 id="应用程序/框架端">应用程序/框架端</h5><p>创建一个”application”对象，callable，可以接受两个参数。</p>
+<ul>
+<li>一个类似CGI环境变量的字典对象</li>
+<li>一个将被“application”用于发送HTTP状态码/状态信息，HTTP头信息的方法</li>
+</ul>
+<h4 id="服务器端">服务器端</h4><p>具体不同Web服务器的实现是不同的，但都要满足以下要求。</p>
+<ul>
+<li>前提：服务器的基本功能是接受客户端请求</li>
+<li>实现了WSGI的服务器会把接收到的请求发给“应用/框架”实现的“callable application” object</li>
+<li>不仅是这样，它还会将请求客户端的信息转化成一个环境变量发给“application”（第一个参数）</li>
+<li>而且，服务器还会提供一个用于返回HTTP状态码，头信息的回调函数，传给“applicaiton”（第二个参数）</li>
+</ul>
+<h4 id="Middleware:_Components_that_Play_Both_Sides">Middleware: Components that Play Both Sides</h4><p>（待续）</p>
+</span>
       
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/WSGI/" rel="tag">#WSGI</a>
+          
+        </div>
       
 
       
@@ -271,7 +303,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-count">5</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -299,7 +331,7 @@
           <div class="post-toc">
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#WSGI"><span class="nav-number">1.</span> <span class="nav-text">WSGI</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#WSGI存在目的"><span class="nav-number">1.1.</span> <span class="nav-text">WSGI存在目的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WSGI的特征"><span class="nav-number">1.2.</span> <span class="nav-text">WSGI的特征</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WSGI的实现"><span class="nav-number">1.3.</span> <span class="nav-text">WSGI的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#应用程序/框架端"><span class="nav-number">1.3.1.</span> <span class="nav-text">应用程序/框架端</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#服务器端"><span class="nav-number">1.4.</span> <span class="nav-text">服务器端</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Middleware:_Components_that_Play_Both_Sides"><span class="nav-number">1.5.</span> <span class="nav-text">Middleware: Components that Play Both Sides</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
