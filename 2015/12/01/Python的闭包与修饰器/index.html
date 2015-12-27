@@ -38,21 +38,18 @@
 
 
 <meta name="description" content="函数装饰器装饰器是Python的一大特色。除了在语言中的原本用处，还帮助我们以一种有趣的方式（函数式）进行思考。
-我打算自底向上解释装饰器如何工作。首先解释几个话题以帮助理解装饰器。然后，深入一点探索几个简单的装饰器以及它们如何工作。最后，讨论一些更高级的使用装饰器的方式，比如：传递可选参数给装饰器或者串接几个装饰器。
-首先以我能想到的最简单的方式来定义Python函数是什么。基于该定义，我们可以">
+我打算自底向上解释装饰器如何工作。首先解释几个话题以帮助理解装饰器。然后，深入一点探索几个简单的装饰器以及它们如何工作。最后，讨论一些更高级的使用装饰器的方式，比如：传递可选参数给装饰器或者串接几个装饰器。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python的闭包与修饰器">
 <meta property="og:url" content="http://yoursite.com/2015/12/01/Python的闭包与修饰器/index.html">
 <meta property="og:site_name" content="Record Time">
 <meta property="og:description" content="函数装饰器装饰器是Python的一大特色。除了在语言中的原本用处，还帮助我们以一种有趣的方式（函数式）进行思考。
-我打算自底向上解释装饰器如何工作。首先解释几个话题以帮助理解装饰器。然后，深入一点探索几个简单的装饰器以及它们如何工作。最后，讨论一些更高级的使用装饰器的方式，比如：传递可选参数给装饰器或者串接几个装饰器。
-首先以我能想到的最简单的方式来定义Python函数是什么。基于该定义，我们可以">
-<meta property="og:updated_time" content="2015-12-01T15:21:31.929Z">
+我打算自底向上解释装饰器如何工作。首先解释几个话题以帮助理解装饰器。然后，深入一点探索几个简单的装饰器以及它们如何工作。最后，讨论一些更高级的使用装饰器的方式，比如：传递可选参数给装饰器或者串接几个装饰器。">
+<meta property="og:updated_time" content="2015-12-27T13:17:44.111Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python的闭包与修饰器">
 <meta name="twitter:description" content="函数装饰器装饰器是Python的一大特色。除了在语言中的原本用处，还帮助我们以一种有趣的方式（函数式）进行思考。
-我打算自底向上解释装饰器如何工作。首先解释几个话题以帮助理解装饰器。然后，深入一点探索几个简单的装饰器以及它们如何工作。最后，讨论一些更高级的使用装饰器的方式，比如：传递可选参数给装饰器或者串接几个装饰器。
-首先以我能想到的最简单的方式来定义Python函数是什么。基于该定义，我们可以">
+我打算自底向上解释装饰器如何工作。首先解释几个话题以帮助理解装饰器。然后，深入一点探索几个简单的装饰器以及它们如何工作。最后，讨论一些更高级的使用装饰器的方式，比如：传递可选参数给装饰器或者串接几个装饰器。">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -187,6 +184,7 @@
       
         <span itemprop="articleBody"><h4 id="函数装饰器">函数装饰器</h4><p>装饰器是Python的一大特色。除了在语言中的原本用处，还帮助我们以一种有趣的方式（函数式）进行思考。</p>
 <p>我打算自底向上解释装饰器如何工作。首先解释几个话题以帮助理解装饰器。然后，深入一点探索几个简单的装饰器以及它们如何工作。最后，讨论一些更高级的使用装饰器的方式，比如：传递可选参数给装饰器或者串接几个装饰器。</p>
+<a id="more"></a>
 <p>首先以我能想到的最简单的方式来定义Python函数是什么。基于该定义，我们可以类似的简单方式来定义装饰器。</p>
 <pre><code>函数是一个完成特定任务的可复用代码块。
 </code></pre><p>好的，那么装饰器又是什么呢？</p>
@@ -336,7 +334,7 @@ some_function = logging_decorator(some_function)
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">8</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

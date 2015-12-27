@@ -183,80 +183,13 @@
 
       
         
-          <span itemprop="articleBody"><h4 id="函数装饰器">函数装饰器</h4><p>装饰器是Python的一大特色。除了在语言中的原本用处，还帮助我们以一种有趣的方式（函数式）进行思考。</p>
+          <h4 id="函数装饰器">函数装饰器</h4><p>装饰器是Python的一大特色。除了在语言中的原本用处，还帮助我们以一种有趣的方式（函数式）进行思考。</p>
 <p>我打算自底向上解释装饰器如何工作。首先解释几个话题以帮助理解装饰器。然后，深入一点探索几个简单的装饰器以及它们如何工作。最后，讨论一些更高级的使用装饰器的方式，比如：传递可选参数给装饰器或者串接几个装饰器。</p>
-<p>首先以我能想到的最简单的方式来定义Python函数是什么。基于该定义，我们可以类似的简单方式来定义装饰器。</p>
-<pre><code>函数是一个完成特定任务的可复用代码块。
-</code></pre><p>好的，那么装饰器又是什么呢？</p>
-<pre><code>装饰器是一个修改其他函数的函数。
-</code></pre><p>现在在装饰器的定义上进行详述，先解释一些先决条件。</p>
-<h4 id="一等函数允许高阶函数">一等函数允许高阶函数</h4><p>我们可以像其他对象那样传递函数。可以将函数作为值传递给字典，放在列表中，或者作为对象的属性进行赋值。那为什么不能作为参数传给另一个函数呢？当然可以！如果一个函数接受另一个函数作为其参数或者返回另一个函数，则称之为高阶函数。</p>
-<h4 id="装饰器基础">装饰器基础</h4><p>本质上，装饰器就是一个以另一个函数为参数的函数。大多数情况下，它们会返回所包装函数的一个修改版本。来看个我们能想到的最简单的装饰器—同一性（identity）装饰器，或许对我们理解装饰器的工作原理有所帮助。</p>
-<pre><code><span class="function"><span class="keyword">def</span> <span class="title">identity_decorator</span><span class="params">(func)</span>:</span>
-    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">()</span>:</span>
-        func()
-    <span class="keyword">return</span> wrapper
-
-<span class="function"><span class="keyword">def</span> <span class="title">a_function</span><span class="params">()</span>:</span>
-    <span class="keyword">print</span> <span class="string">"I'm a normal function."</span>
-
-<span class="comment"># `decorated_function` 是 `identity_function` 返回的函数，也就是嵌套函数 `wrapper`</span>
-decorated_function = identity_function(a_function)
-
-<span class="comment"># 如下调用 `identity_function` 返回的函数</span>
-decorated_function()
-<span class="comment"># &gt;&gt;&gt; I'm a normal function</span>
-</code></pre><p> 这里， identity_decorator 根本没有修改它包装的函数，只是简单地返回一个函数（wrapper），这个函数在被调用之时，会去调用原来作为 identity_decorator 参数的函数。这是个没有用处的装饰器！</p>
-<p>关于 identity_decorator 的有趣之处是 wrapper 能够访问变量 func ，即使 func 并非是它的参数。这归因于闭包。</p>
-<h4 id="闭包">闭包</h4><pre><code>闭包是一个花哨的术语，意为声明一个函数时，该函数会维持一个指向声明所处词法环境的引用。
-</code></pre><p>上例中定义的函数 wrapper 能够在其局部作用域（local scope）中访问 func。这意味着在 wrapper （返回并赋值给变量 decorated_function ）的整个生命周期内，它都可以访问 func 变量。一旦 identity_decorator返回，那么访问 func 的唯一方式就是通过 decorated_function 。 func 只作为一个变量存在于 decorated_function 作用域环境的内部。</p>
-<h4 id="装饰器语法">装饰器语法</h4><p>在前一个例子中，我们看到可以将一个函数作为参数传给装饰器，从而使用装饰器函数对该函数进行包装。然而，Python还有一个语法模式使得这一切更加直观，更容易阅读，一旦你熟悉了装饰器。</p>
-<pre><code><span class="comment"># In the previous example, we used our decorator function by passing the</span>
-<span class="comment"># function we wanted to modify to it, and assigning the result to a variable</span>
-<span class="function"><span class="keyword">def</span> <span class="title">some_function</span><span class="params">()</span>:</span>
-    <span class="keyword">print</span> <span class="string">"I'm happiest when decorated."</span>
-
-<span class="comment"># Here we will make the assigned variable the same name as the wrapped function</span>
-some_function = logging_decorator(some_function)
-
-
-
-<span class="comment"># We can achieve the exact same thing with this syntax:</span>
-
-<span class="decorator">@logging_decorator</span>
-<span class="function"><span class="keyword">def</span> <span class="title">some_function</span><span class="params">()</span>:</span>
-    <span class="keyword">print</span> <span class="string">"I'm happiest when decorated"</span>
-</code></pre><p>使用装饰器语法，鸟瞰其中发生的事情：</p>
-<ul>
-<li>解释器到达被装饰的函数，编译 some_function，并将其命名为 ‘some_function’。</li>
-<li>然后将该函数传递给装饰行中指定的装饰器函数（ logging_function ）。</li>
-<li>装饰器函数（通常是用来包装原函数的另一个函数）的返回值取代原来的函数（some_function ），绑定到变量名 some_function 。</li>
-</ul>
-<h4 id="缓存制表（Memoization）">缓存制表（Memoization）</h4><p>缓存制表是避免潜在的昂贵的重复计算的一种方法，通过缓存函数每次执行的结果来实现。这样，下一次函数以相同的参数执行，就可以从缓存中获取返回结果，不需要再次计算结果。</p>
-<pre><code><span class="keyword">from</span> functools <span class="keyword">import</span> wraps
-
-<span class="function"><span class="keyword">def</span> <span class="title">memoize</span><span class="params">(func)</span>:</span>
-    cache = {}
-
-<span class="decorator">    @wraps(func)</span>
-    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(*args)</span>:</span>
-        <span class="keyword">if</span> args <span class="keyword">not</span> <span class="keyword">in</span> cache:
-            cache[args] = func(*args)
-        <span class="keyword">return</span> cache[args]
-    <span class="keyword">return</span> wrapper
-
-<span class="decorator">@memoize</span>
-<span class="function"><span class="keyword">def</span> <span class="title">an_expensive_function</span><span class="params">(arg1, arg2, arg3)</span>:</span>
-    ...
-</code></pre><p>你可能注意到了示例代码中一个奇怪的 @wraps 装饰器。在完整地讨论 memoize 之前我将简要地解释这个装饰器。</p>
-<ul>
-<li>使用装饰器的一个副作用是被包装的函数失去了本来有的 <strong>name</strong> ， <strong>doc</strong> ， 以及 <strong>module</strong> 属性。 wraps 函数是一个包装另一个装饰器返回的函数的装饰器，将那三个属性的值恢复为函数未装饰之时的值。例如： 如果不使用 wraps 装饰器， an_expensive_function 的名字（通过 an_expensive_function.<strong>name</strong> 可以看到）将是 ‘wrapper’ 。</li>
-</ul>
-<p>我认为 memoize 是一个很好的装饰器用例。它服务于一个很多函数都需要的目的，通过将它创建为一个通用装饰器，我们可以将它的功能应用于任一能够从其中获益的函数。这就避免了在多种不同的场合重复实现这个功能。因为不需要重复自己，所以我们的代码更容易维护，并且更容易阅读和理解。只要读一个单词你就能立刻理解函数使用了缓存制表。</p>
-<p>需要提醒的是：缓存制表仅适用于纯函数。也就是说给定一个特定的参数设置，函数确定总会产生相同的结果。如果函数依赖于不作为参数传递的全局变量、I/O、或者其它任意可能影响返回值的东西，缓存制表会产生令人迷惑的结果！并且，一个纯函数不会有任何副作用。因此，如果你的函数会增大一个计数器，或者调用另一个对象的方法，或者其它任意不在函数的返回结果中表示的东西，当结果是从缓存中返回时，副作用操作并不会得到执行。</p>
-<h4 id="类的装饰器">类的装饰器</h4><p>…</p>
-<h4 id="装饰器类">装饰器类</h4><p>….</p>
-<h4 id="带参数的装饰器">带参数的装饰器</h4><h4 id="带可选参数的装饰器">带可选参数的装饰器</h4><h4 id="串联装饰器">串联装饰器</h4></span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/12/01/Python的闭包与修饰器/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -758,148 +691,6 @@ some_function = logging_decorator(some_function)
 
 
     
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2015/10/09/20151009夜/" itemprop="url">
-                20151009夜
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2015-10-09T00:06:38+08:00" content="2015-10-09">
-            2015-10-09
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>今天和女朋友聊为什么我俩日常生活没什么有趣的事情说，但当其中一方生气了，接下来坚持沟通和聊天一般会有一个开心的结果。</p>
-<p>我想到了“目的导向”和“单线程”两个词。<br>感觉有时可以是很准确的，我有过不少次神准直觉的经历，所以这次我还是选择相信感觉。</p>
-<p>先说”目的导向”，这是个中性词，意思是在做一件事情时总是想着目的地在哪。程度过一点的话，还可以用来形容做事情只问结果不问过程。<br>哦不，只问结果不问过程是“结果导向”。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/10/09/20151009夜/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2015/10/08/hello-world/" itemprop="url">
-                Hello World
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2015-10-08T00:30:00+08:00" content="2015-10-08">
-            2015-10-08
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>Welcome to <a href="http://hexo.io/">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><pre>
-$ hexo new "My New Post"
-</pre>
-
-<p>More info: <a href="http://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run_server">Run server</h3><pre>
-$ hexo server
-</pre>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/10/08/hello-world/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -935,7 +726,7 @@ $ hexo server
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">8</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
