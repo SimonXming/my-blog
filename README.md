@@ -1,3 +1,8 @@
+```
+# Date: 2016-6-10 5:18
+# Location: Shanghai, Jingan Temple
+```
 
-I love github's label system, filtering func, markdown syntax. AND
-I am lazy boy.
+I love github's label system, filtering func, markdown syntax, etc. 
+### AND
+I am a lazy boy.
