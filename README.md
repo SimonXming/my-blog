@@ -3,6 +3,6 @@
 # Location: Shanghai, Jingan Temple
 ```
 
-I love github's label system, filtering func, markdown syntax, etc. 
+I love github's label system, filtering function, markdown syntax, etc. 
 ### AND
 I am a lazy boy.
