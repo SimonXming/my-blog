@@ -1,4 +1,4 @@
-alias proxy='sudo sslocal -s 45.78.29.89 -p 8388 -l 8376 -k yIsvsb2sS8 -m aes-256-cfb -d start'
+alias proxy='sudo sslocal -s 45.62.122.64 -p 22 -l 8376 -k yIsvsb2sS8 -m aes-256-cfb -d start'
 alias flux='/opt/flux/xflux -g 121.50 -l 31.22 -k 3800'
 alias p4='proxychains4'
 alias ps-cpu="ps -eo ruser,pid,ppid,lwp,psr,args -L"
