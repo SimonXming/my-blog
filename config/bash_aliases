@@ -1,8 +1,29 @@
-# wrap system command
-alias ps-cpu="ps -eo ruser,pid,ppid,lwp,psr,args -L"
-alias kkill="kill -9 `ps -ef|grep '$1'|grep -v grep|awk '{print $2}'`"
+# ps
+alias ps-cpu="ps -eo uname,pid,ppid,pmem,pcpu,args --sort=-pmem,-pcpu"
+alias watch-ps="watch -n 1 'ps -e -o pid,ppid,uname,pmem,pcpu,cmd --sort=-pmem,-pcpu | head -35'"
+alias ps-except="ps -eo uname,pid,ppid,pmem,pcpu,args --sort=-pmem,-pcpu |grep -v "
 
-# tools
+# ls
+alias ll='ls -al --color=tty'   #ls相关，这里--color需要根据终端设
+alias lx='ls -lhBX --color=auto'        #sort by extension
+alias lz='ls -lhrS --color=auto'        #sort by size
+alias lt='ls -lhrt --color=auto'        #sort by date    最常用到，ls -rt，按修改时间查看目录下文件
+alias lsd='find . -maxdepth 1 -type d | sort'   #列出所有目录
+
+# file system
+alias free='free -m -h'
+alias df="df -h"
+alias du="du -h"
+alias dus="du -s"   #磁盘
+alias du0="du --max-depth=0"
+alias du1="du --max-depth=1"
+alias dfind='find -type d -name'  #查找文件夹
+alias ffind='find -type f -name'  #查找文件
+
+# kill
+alias kkill="kill -9 `ps -ef | grep '$1' | grep -v grep | awk '{print $2}'`"
+
+# extension
 alias p4='proxychains4'
 alias flux='/opt/flux/xflux -g 121.50 -l 31.22 -k 3800'
 alias proxy='sudo sslocal -s 45.62.122.64 -p 22 -l 8376 -k yIsvsb2sS8 -m aes-256-cfb -d start'

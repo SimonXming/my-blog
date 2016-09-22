@@ -1,55 +1,55 @@
-'.python.source':
-  'editor':
-    'tabLength': 4
-'.js.source':
-  'editor':
-    'tabLength': 2
-'.gfm.source':
-  'editor':
-    'showInvisibles': false
-    'softWrap': true
-    'tabLength': 4
-'.c.source':
-  'editor':
-    'tabLength': 4
 "*":
   "activate-power-mode":
-    particles:
-      size: {}
-      spawnCount: {}
-      totalCount: {}
-    screenShake:
-      enabled: false
+	particles:
+	  size: {}
+	  spawnCount: {}
+	  totalCount: {}
+	screenShake:
+	  enabled: false
   core:
-    ignoredNames: [
-      "*.pyc"
-      ".git"
-    ]
+	ignoredNames: [
+	  "*.pyc"
+	  ".git"
+	]
   editor:
-    invisibles: {}
-    preferredLineLength: 110
-    showIndentGuide: true
-    showInvisibles: true
-    softTabs: false
-    softWrap: true
-    tabLength: 4
-    tabType: "soft"
+	invisibles: {}
+	preferredLineLength: 110
+	showIndentGuide: true
+	showInvisibles: true
+	softTabs: false
+	softWrap: true
+	tabLength: 4
+	tabType: "soft"
   "exception-reporting":
-    userId: "212039da-80c9-5c48-7a5e-61c78f2ca7ce"
+	userId: "003b43c9-166e-c9ea-c4b7-c82ecde27a2e"
   grammar:
-    javascript:
-      editor:
-        tabLength: 2
+	javascript:
+	  editor:
+		tabLength: 2
   "line-ending-converter":
-    normalizeEolOnSave: "Unix (LF)"
+	normalizeEolOnSave: "Unix (LF)"
   linter:
-    errorPanelHeight: 117
-    showErrorPanel: false
+	errorPanelHeight: 117
+	showErrorPanel: false
   "linter-pep8":
-    maxLineLength: 110
+	maxLineLength: 110
   "tabs-to-spaces":
-    onSave: "untabify"
+	onSave: "tabify"
   "tree-view":
-    hideIgnoredNames: true
+	hideIgnoredNames: true
   welcome:
-    showOnStartup: false
+	showOnStartup: false
+".c.source":
+  editor:
+	tabLength: 4
+".gfm.source":
+  editor:
+	showInvisibles: false
+	softWrap: true
+	tabLength: 4
+".js.source":
+  editor:
+	tabLength: 2
+".python.source":
+  editor:
+	tabLength: 4
