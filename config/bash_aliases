@@ -10,6 +10,10 @@ alias lz='ls -lhrS --color=auto'        #sort by size
 alias lt='ls -lhrt --color=auto'        #sort by date    最常用到，ls -rt，按修改时间查看目录下文件
 alias lsd='find . -maxdepth 1 -type d | sort'   #列出所有目录
 
+# networking
+alias ntst_establsh="netstat -an |grep 'ESTABLISHED' |grep 'tcp' |wc -l"       # 查看并发数
+alias conn_stat="netstat -n | awk '/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}'"  # 查看连接情况
+
 # file system
 alias free='free -m -h'
 alias df="df -h"
