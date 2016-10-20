@@ -32,5 +32,7 @@ alias p4='proxychains4'
 alias flux='/opt/flux/xflux -g 121.50 -l 31.22 -k 3800'
 alias proxy='sudo sslocal -s 45.62.122.64 -p 22 -l 8376 -k yIsvsb2sS8 -m aes-256-cfb -d start'
 
-# SVN
+# scm
+alias git-log="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+"
 alias svn-ignore="svn propset svn:ignore -F ignoring.txt ."
