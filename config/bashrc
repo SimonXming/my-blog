@@ -130,6 +130,19 @@ eval "$(pyenv virtualenv-init -)"
 xrandr --newmode "1920x1080_60.00"  173.00  1920 2048 2248 2576  1080 1083 1088 1120 -hsync +vsync
 xrandr --addmode Virtual1 "1920x1080_60.00"
 
+# GOPATH
+export GOPATH="$HOME/.go/"
+export PATH=$PATH:$GOPATH/bin
+
+# print the header (the first line of input)
+# and then run the specified command on the body (the rest of the input)
+# use it in a pipeline, e.g. ps | body grep somepattern
+body() {
+    IFS= read -r header
+    printf '%s\n' "$header"
+    "$@"
+}
+
 # custome PS1
 
 bash_prompt() {
