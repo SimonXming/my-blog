@@ -45,10 +45,13 @@ if [ "$current_branch" = fuhua-dev ];
 then
     upstream_sha=`git rev-parse $upstream_branch`
     contain_commit=$(is_contain $current_branch $upstream_sha)
+    echo "--- upstream_sha commit_id: $upstream_sha ---"
+    echo "--- if $upstream_branch contain_commit ? $contain_commit ---"
     if [ "$contain_commit" = true ];
     then
         exit 0
     else
+        echo "Runing git rebase $upstream_branch $current_branch"
         git rebase "$upstream_branch" "$current_branch"
     fi
 fi
