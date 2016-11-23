@@ -1,0 +1,56 @@
+#!/bin/bash
+
+# DESCRIPTION: Check if push_ref base on latest upstream_ref. if not, `git rebase` before push.
+
+# Called by "git push" after it has checked the remote status, but before anything has been
+# pushed.  If this script exits with a non-zero status nothing will be pushed.
+#
+# This hook is called with the following parameters:
+#
+# $1 -- Name of the remote to which the push is being done
+# $2 -- URL to which the push is being done
+#
+# If pushing without using a named remote those arguments will be equal.
+#
+# Information about the commits which are being pushed is supplied as lines to
+# the standard input in the form:
+#
+#   <local ref> <local sha1> <remote ref> <remote sha1>
+#
+# This sample shows how to prevent push of commits where the log message starts
+# with "WIP" (work in progress).
+
+function parse_git_branch {
+    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
+}
+
+function is_contain() {
+    check_branch_name=$1
+    commint_id=$2
+    contain_branch_name=`git branch --contains $commint_id $check_branch_name --no-color 2> /dev/null | sed -e 's/* \(.*\)/\1/'`
+    if [ "$contain_branch_name" = $check_branch_name ];
+    then
+        echo true
+    else
+        echo false
+    fi
+}
+
+current_branch=$(parse_git_branch)
+upstream_branch="master"
+remote="$1"
+url="$2"
+
+if [ "$current_branch" = fuhua-dev ];
+then
+    upstream_sha=`git rev-parse $upstream_branch`
+    contain_commit=$(is_contain $current_branch $upstream_sha)
+    if [ "$contain_commit" = true ];
+    then
+        exit 0
+    else
+        git rebase "$upstream_branch" "$current_branch"
+    fi
+fi
+
+exit 0
