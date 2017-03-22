@@ -36,3 +36,7 @@ alias proxy='sudo sslocal -s 45.62.122.64 -p 22 -l 8376 -k yIsvsb2sS8 -m aes-256
 alias git-log="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 "
 alias svn-ignore="svn propset svn:ignore -F ignoring.txt ."
+
+# docker clean command
+alias docker-clean-container="docker ps -a | grep 'Exited' | awk '{print $1}' | xargs docker stop | xargs docker rm"
+alias docker-clean-image="docker images | grep '<none>' | awk '{print $3}' | xargs docker rmi"
