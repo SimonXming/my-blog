@@ -83,7 +83,9 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 alias p4="proxychains4"
-
+alias docker_clean_container="docker rm $(docker ps -a -f status=exited -f status=created -q)"
+alias docker_clean_image="docker rmi $(docker images -f dangling=true -q)"
+alias tcp_listen="lsof -nP -iTCP -sTCP:LISTEN"
 
 #############################################
 #
@@ -104,6 +106,8 @@ export GOROOT_BOOTSTRAP=/opt/go1.4
 # Setup Rust binary to PATH
 export PATH="$HOME/.cargo/bin:$PATH"
 
+# Setup Julia language binary to PATH
+export PATH="/Applications/Julia-0.6.app/Contents/Resources/julia/bin:$PATH"
 
 ########## 2.Develop environment  ########### 
 
@@ -129,3 +133,5 @@ export WORKON_HOME=$HOME/.venv/
 # Setup openvpn binary
 export PATH=$PATH:/usr/local/Cellar/openvpn/2.4.0/sbin
 
+# Setup user custom tool
+export PATH=$PATH:/opt/bin
