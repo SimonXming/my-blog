@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/simon/.oh-my-zsh
+export ZSH=/Users/mingx/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -82,10 +82,15 @@ source $ZSH/oh-my-zsh.sh
 #
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
-alias p4="proxychains4"
-alias docker_clean_container="docker rm $(docker ps -a -f status=exited -f status=created -q)"
-alias docker_clean_image="docker rmi $(docker images -f dangling=true -q)"
-alias tcp_listen="lsof -nP -iTCP -sTCP:LISTEN"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+
+#############################################
+#
+#              Setup Alias
+#
+#############################################
+
+source ~/.zsh-alias
 
 #############################################
 #
@@ -97,41 +102,47 @@ alias tcp_listen="lsof -nP -iTCP -sTCP:LISTEN"
 ########## 1. Programming language ##########
 
 # Setup golang GO_PATH
-export GOPATH=$HOME/Code/go
-export PATH=$PATH:/Users/simon/Code/go/bin
+export GOPATH="$HOME/Code/go"
+export PATH="$PATH:$GOPATH/bin:/usr/local/go/bin"
 # Since go>=1.5 is start build against go(default go1.4), instead of gcc/clang
 # Set GOROOT_BOOTSTRAP is to point where new version golang against.
-export GOROOT_BOOTSTRAP=/opt/go1.4
+export GOROOT_BOOTSTRAP="/opt/share/go1.4"
 
-# Setup Rust binary to PATH
-export PATH="$HOME/.cargo/bin:$PATH"
+# Setup JAVA_HOME
+export JAVA_HOME=$(/usr/libexec/java_home)
+# dt.jar 是包含 Swing 的 GUI 工具包／tools.jar (据说在其他系统，如 windows，mac 上发现是空的) 包含java相关工具
+export CLASSPATH="$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar"
 
-# Setup Julia language binary to PATH
-export PATH="/Applications/Julia-0.6.app/Contents/Resources/julia/bin:$PATH"
-
-########## 2.Develop environment  ########### 
-
-# Anaconda3 4.3.0 
-export PATH="$PATH:/Users/simon/Applications/Anaconda3/bin"
-
-# Updates PATH for the Google Cloud SDK.
-if [ -f '/opt/google-cloud-sdk/google-cloud-sdk/path.zsh.inc' ]; then source '/opt/google-cloud-sdk/google-cloud-sdk/path.zsh.inc'; fi
-
-# Enables shell command completion for gcloud.
-if [ -f '/opt/google-cloud-sdk/google-cloud-sdk/completion.zsh.inc' ]; then source '/opt/google-cloud-sdk/google-cloud-sdk/completion.zsh.inc'; fi
+########## 2. Develop environment  ###########
 
 
 ########## 3. Tools ##########################
 
+# Install pip for mingx
+export PATH="$PATH:$HOME/Library/Python/2.7/bin"
+
+# Install code command for Visual Studio Code
+export PATH="$PATH:$HOME/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+
 # Setup virtualenvwrapper
 source /usr/local/bin/virtualenvwrapper.sh
-export WORKON_HOME=$HOME/.venv/
+export WORKON_HOME="$HOME/.venv/"
 
 # Setup autojump
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 
-# Setup openvpn binary
-export PATH=$PATH:/usr/local/Cellar/openvpn/2.4.0/sbin
+# Setup nvm (Node Package Manager)
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# Setup user custom tool
-export PATH=$PATH:/opt/bin
+# Add custom tool binary path in PATH
+export PATH="$PATH:/opt/bin"
+
+# Setup npm serverless
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[[ -f /Users/mingx/.nvm/versions/node/v8.7.0/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/mingx/.nvm/versions/node/v8.7.0/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f /Users/mingx/.nvm/versions/node/v8.7.0/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/mingx/.nvm/versions/node/v8.7.0/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
